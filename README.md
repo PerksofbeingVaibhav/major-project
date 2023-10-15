@@ -1,6 +1,6 @@
 <br/>
 <p align="center">
-  <h3 align="center">AnCrypt</h3>
+  <h3 align="center">Stock and Crypto</h3>
 
   <p align="center">
      Track Cryptocurrency Trends with Ease on Our Modern React-Powered Platform!
@@ -52,7 +52,7 @@ Ready to dive into the world of crypto tracking? Follow these simple steps to ge
 
 
 
-1. Clone the Repository: https://github.com/ThisIsSahaj/AnCrypt
+1. Clone the Repository: https://github.com/PerksofbeingVaibhav/major-project.git
 
 2. Install Dependencies:  Run npm install or yarn install in the project directory.
 
@@ -65,12 +65,5 @@ Ready to dive into the world of crypto tracking? Follow these simple steps to ge
 6. Run the Application: Launch the application with npm start or yarn start. This will start the development server and open the app in your browser.
 Happy tracking! 🚀📈
 
-
-
-
-
-## Authors
-
-* **Sahaj Jain** - Comp. Sci. Student  - [Sahaj Jain](https://github.com/ThisIsSahaj) - *Built [AnCrypt](https://ancrypt.onrender.com) from scratch*
 
 
