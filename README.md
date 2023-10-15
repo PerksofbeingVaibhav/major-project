@@ -6,11 +6,11 @@
      Track Cryptocurrency Trends with Ease on Our Modern React-Powered Platform!
     <br/>
     <br/>
-    <a href="https://github.com/ThisIsSahaj/AnCrypt">View Demo</a>
+    <a href=" https://github.com/PerksofbeingVaibhav/major-project.git">View Demo</a>
     .
-    <a href="https://github.com/ThisIsSahaj/AnCrypt/issues">Report Bug</a>
+    <a href="https://github.com/PerksofbeingVaibhav/major-project/issues">Report Bug</a>
     .
-    <a href="https://github.com/ThisIsSahaj/AnCrypt/issues">Request Feature</a>
+    <a href="https://github.com/PerksofbeingVaibhav/major-project/issues">Request Feature</a>
   </p>
 </p>
 
