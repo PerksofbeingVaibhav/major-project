@@ -44,25 +44,31 @@ Crafted with cutting-edge technologies, AnCrypt is built with
 - Search for a particular coin
 - Share your coins Portfolio with your friends
 
-## Getting Started
+## Run Locally
 
-Ready to dive into the world of crypto tracking? Follow these simple steps to get started:
+### Prerequisites
 
-### Installation
+- [Node.js](https://nodejs.org/) and npm
+- A Firebase project if you want to use Google sign-in and watchlists. Add its web configuration in `src/config/firebaseConfig.js`.
 
+### Start the development server
 
+```bash
+git clone https://github.com/PerksofbeingVaibhav/major-project.git
+cd major-project
+npm ci --legacy-peer-deps
+npm start
+```
 
-1. Clone the Repository: https://github.com/PerksofbeingVaibhav/major-project.git
+Then open [http://localhost:3000](http://localhost:3000) in your browser.
 
-2. Install Dependencies:  Run npm install or yarn install in the project directory.
+`--legacy-peer-deps` is required because this project uses Material UI v4 alongside React 18, whose peer-dependency ranges conflict in newer npm versions.
 
-3. Get Free API Key: Sign up for a cryptocurrency data API key from https://www.coingecko.com/
+To create an optimized production build, run:
 
-4. Configure API Key: In the project code, locate the section designated for API configuration.
-
-5. Configure Firebase: Create a Firebase project and obtain the configuration details. https://firebase.google.com/
-
-6. Run the Application: Launch the application with npm start or yarn start. This will start the development server and open the app in your browser.
+```bash
+npm run build
+```
 Happy tracking! 🚀📈
 
 
