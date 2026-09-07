@@ -22,25 +22,24 @@ const CryptoContext = ({children}) => {
 
   });
   const [watchlist, setWatchlist] = useState([]);
+  const [watchlistReady, setWatchlistReady] = useState(false);
 
   useEffect(() => {
-    if(user){
-     const coinRef = doc(db, "watchlist", user.uid);
+    setWatchlistReady(false);
+    setWatchlist([]);
 
-      var unsubscribe = onSnapshot(coinRef, coin =>{
-        if (coin.exists()){
-          // console.log(coin.data().coins);
-          setWatchlist(coin.data().coins);
-        } else{
-          console.log("No items in Watchlist");
-          
-        }
-      });
+    if (!user) return;
 
-      return () => {
-        unsubscribe();
-      };
-    } 
+    const coinRef = doc(db, "watchlist", user.uid);
+    const unsubscribe = onSnapshot(coinRef, coin => {
+      setWatchlist(coin.exists() && Array.isArray(coin.data().coins) ? coin.data().coins : []);
+      setWatchlistReady(true);
+    }, () => {
+      setWatchlist([]);
+      setWatchlistReady(true);
+    });
+
+    return unsubscribe;
   }, [user]);
   
   const [publicPortfolio, setPublicPortfolio] = useState([]);
@@ -112,7 +111,7 @@ const CryptoContext = ({children}) => {
   }, [currency]); 
 
 
-  return (<Crypto.Provider value={{currency,symbol,setCurrency, setUser, coins, loading, fetchCoins,alert, setAlert, user, watchlist,setWatchlist,  fetchUserById, publicPortfolio, setPublicPortfolio }}>{children}</Crypto.Provider>)
+  return (<Crypto.Provider value={{currency,symbol,setCurrency, setUser, coins, loading, fetchCoins,alert, setAlert, user, watchlist,setWatchlist, watchlistReady, fetchUserById, publicPortfolio, setPublicPortfolio }}>{children}</Crypto.Provider>)
 }
 
 export default CryptoContext;

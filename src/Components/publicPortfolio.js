@@ -87,7 +87,7 @@ const PublicPortfolio = () => {
   const { userId } = useParams();
  const navigate = useNavigate();
  
-   const {coins, symbol, publicPortfolio, setPublicPortfolio, loading, watchlist, setWatchlist, fetchCoins, currency} = CryptoState();
+   const {coins, symbol, publicPortfolio, setPublicPortfolio, loading, fetchCoins, currency} = CryptoState();
    
   //  fetchCoins(); 
    
@@ -96,20 +96,17 @@ const PublicPortfolio = () => {
    
   useEffect(() => {
      
-     const docRef = doc(db, "publicPortfolio", userId);
-        var unsubscribe = onSnapshot(docRef, coin =>{
-         if (coin.exists()){
-           setPublicPortfolio(coin.data().coins);
-           console.log(coin.data().coins);
-    } else{
-      console.log("No items in Portfolio");
-      
-      
-    }
-  });
-  
-  
-}, [userId])
+    const docRef = doc(db, "publicPortfolio", userId);
+    const unsubscribe = onSnapshot(docRef, coin => {
+      setPublicPortfolio(coin.exists() && Array.isArray(coin.data().coins) ? coin.data().coins : []);
+    }, (error) => console.error("Unable to load public watchlist:", error));
+
+    return unsubscribe;
+  }, [userId, setPublicPortfolio]);
+
+  useEffect(() => {
+    fetchCoins();
+  }, [currency]);
 
   const darkTheme= createTheme({
     palette: {  

@@ -95,10 +95,17 @@ const Portfolio = () => {
 //  const [loading, setLoading] = useState(false);
  const navigate = useNavigate();
  
- const { currency, symbol, coins, loading, fetchCoins, user, watchlist, setAlert,publicPortfolio,setPublicPortfolio } = CryptoState();
- const sharingLink = `https://ancrypt.onrender.com/#/publicPortfolio/${user.uid}`
+ const { currency, symbol, coins, loading, fetchCoins, user, watchlist, watchlistReady, setAlert,publicPortfolio,setPublicPortfolio } = CryptoState();
+ const sharingLink = `${window.location.origin}${window.location.pathname}#/publicPortfolio/${user.uid}`;
  const [isCopied, setIsCopied] = useState(false);
- setPublicPortfolio(watchlist); 
+
+  useEffect(() => {
+    if (!user || !watchlistReady) return;
+
+    setPublicPortfolio(watchlist);
+    setDoc(doc(db, "publicPortfolio", user.uid), { coins: watchlist }, { merge: true })
+      .catch((error) => console.error("Unable to publish watchlist:", error));
+  }, [user, watchlist, watchlistReady, setPublicPortfolio]);
 
  const copyToClipboard = () => {
   const input = document.createElement('input');
