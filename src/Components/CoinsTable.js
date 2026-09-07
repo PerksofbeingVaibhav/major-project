@@ -1,15 +1,12 @@
 import { Button, Container, createTheme, LinearProgress, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead,  TableRow, TextField, ThemeProvider, Typography } from '@material-ui/core';
-import axios from 'axios';
 import React, { useEffect, useState} from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { CryptoState } from '../CryptoContext';
 import { numberWithCommas } from './Banner/Carousel';
 import { Pagination } from "@material-ui/lab";
 import {AiFillStar, AiOutlineStar} from 'react-icons/ai'
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { SingleCoin } from '../config/api';
-import { async } from '@firebase/util';
 
 import { StarAuthModal } from './Authentication/AuthModal';
 import TableSkeleton from './tableSkeleton';
@@ -96,24 +93,10 @@ const useStyles = makeStyles((theme) => ({
 const CoinsTable = () => {
 //  const [coins, setCoins] = useState([]);
 //  const [loading, setLoading] = useState(false);
-const { id } = useParams();
 const [search, setSearch] = useState("");
  const [page, setPage] = useState(1)
  const navigate = useNavigate();
- const [coin, setCoin] = useState();
  const { currency, symbol, coins, loading, fetchCoins, user, watchlist, setAlert,publicPortfolio } = CryptoState();
-
- const fetchCoin = async () => {
-  const { data } = await axios.get(SingleCoin(id));
-    setCoin(data);
-};
-useEffect(() => {
-  setTimeout(() => {
-    fetchCoin();
-
-  }, 5000)
-  
- }, []);
 
  // Watchlist functionality
 
@@ -213,7 +196,13 @@ useEffect(() => {
                  {handleSearch()
                  .slice((page-1)*10,(page-1)*10+10)
                  .map((row) => {
-                   const profit = row.price_change_percentage_24h > 0;
+                   const price = row.current_price;
+                   const change24h = row.price_change_percentage_24h;
+                   const marketCap = row.market_cap;
+                   const hasPrice = typeof price === "number" && Number.isFinite(price);
+                   const hasChange24h = typeof change24h === "number" && Number.isFinite(change24h);
+                   const hasMarketCap = typeof marketCap === "number" && Number.isFinite(marketCap);
+                   const profit = hasChange24h && change24h > 0;
 
                     
                     const inWatchlist = watchlist.includes(row?.id);
@@ -346,7 +335,7 @@ useEffect(() => {
                         align="center"
                         className={classes.coinPrice}>
                           {symbol}{" "}
-                          {numberWithCommas(row.current_price.toFixed(2))}
+                          {hasPrice ? numberWithCommas(price.toFixed(2)) : "—"}
 
                         </TableCell>
                            
@@ -378,8 +367,7 @@ useEffect(() => {
                             float: "center",
                           }}>
 
-                          {profit && "+"}
-                          {row.price_change_percentage_24h.toFixed(2)}%
+                          {hasChange24h ? <>{profit && "+"}{change24h.toFixed(2)}%</> : "—"}
                             </div>
                           </TableCell>
 
@@ -388,10 +376,9 @@ useEffect(() => {
                           onClick={() => navigate(`/coins/${row.id}`)}
                           className={classes.coinMarketCap}>
                             {symbol}{" "}
-                            {numberWithCommas(
-                              row.market_cap.toString().slice(0, -6)
-                            )}
-                            M
+                            {hasMarketCap ? <>{numberWithCommas(
+                              marketCap.toString().slice(0, -6)
+                            )} M</> : "—"}
                           </TableCell>
                         </TableRow>
                             </>
